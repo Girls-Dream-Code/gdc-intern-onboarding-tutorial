@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Josefin Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.75);
+  --radius-md: calc(var(--radius) * 0.875);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+}
+
+:root {
+  font-family: "Josefin Sans", ui-sans-serif, system-ui, sans-serif;
+  color-scheme: light;
+  --radius: 0.625rem;
+  --background: #efebe5;
+  --foreground: #493838;
+  --card: #efebe5;
+  --card-foreground: #493838;
+  --primary: #ff7e73;
+  --primary-foreground: #493838;
+  --muted: color-mix(in srgb, #776464 10%, #efebe5);
+  --muted-foreground: #776464;
+  --border: color-mix(in srgb, #776464 35%, #efebe5);
+  --ring: #ff7e73;
+}
+
+* { border-color: var(--border); }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--background);
+}
+
+button, input, textarea, select { font: inherit; }
