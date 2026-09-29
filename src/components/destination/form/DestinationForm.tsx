@@ -7,7 +7,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Input } from "@/components/ui/input";
 // import { Label } from "@/components/ui/label";
-// import { addDestination } from "@/lib/api";
+// import { addDestination } from "@/services/destinationService";
 // import { destinationQueryKey } from "@/lib/queryKeys";
 import styles from "./DestinationForm.module.css";
 

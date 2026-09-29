@@ -1,10 +1,10 @@
 // import { useQuery } from "@tanstack/react-query";
 
-import { DestinationForm } from "@/components/DestinationForm";
-// import { DestinationList } from "@/components/DestinationList";
+import { DestinationForm } from "@/components/destination/form/DestinationForm";
+// import { DestinationList } from "@/components/destination/list/DestinationList";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import gdcLogo from "@/assets/gdc-logo.png";
-// import { getDestinations } from "@/lib/api";
+// import { getDestinations } from "@/services/destinationService";
 // import { destinationQueryKey } from "@/lib/queryKeys";
 import styles from "./TravelWishlist.module.css";
 

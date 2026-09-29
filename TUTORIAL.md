@@ -353,17 +353,26 @@ src/
 ├── assets/
 │
 ├── components/
-│   ├── ui/
-│   │   └── card.tsx
-│   │
-│   └── DestinationForm.tsx
+│   ├── destination/
+│   │   ├── form/
+│   │   │   ├── DestinationForm.module.css
+│   │   │   └── DestinationForm.tsx
+│   │   └── list/
+│   │       ├── DestinationList.module.css
+│   │       └── DestinationList.tsx
+│   └── ui/
+│       └── card.tsx
 │
 ├── lib/
-│   ├── api.ts
+│   ├── queryKeys.ts
 │   └── utils.ts
 │
 ├── pages/
+│   ├── TravelWishlist.module.css
 │   └── TravelWishlist.tsx
+│
+├── services/
+│   └── destinationService.ts
 │
 ├── types/
 │   └── destination.ts
@@ -375,7 +384,7 @@ src/
 
 ### `components/`
 
-Reusable pieces of the user interface.
+Reusable pieces of the user interface, grouped by feature. The destination form and list each keep their CSS Module beside the component.
 
 ### `pages/`
 
@@ -383,7 +392,11 @@ Larger application screens.
 
 ### `lib/`
 
-Reusable application logic, including API communication.
+Reusable application utilities and TanStack Query keys.
+
+### `services/`
+
+Functions that communicate with external services such as Xano.
 
 ### `types/`
 
@@ -400,7 +413,7 @@ Images and other static files.
 Open:
 
 ```text
-src/components/DestinationForm.tsx
+src/components/destination/form/DestinationForm.tsx
 ```
 
 You will see:
@@ -688,12 +701,12 @@ npm run dev
 
 ---
 
-## 18. Build the API Layer
+## 18. Build the Destination Service
 
 Open:
 
 ```text
-src/lib/api.ts
+src/services/destinationService.ts
 ```
 
 After the helper functions, add the following:
@@ -861,7 +874,7 @@ converts our JavaScript object into JSON before sending it.
 
 ## 22. Understanding API Errors
 
-The API file checks:
+The destination service checks:
 
 ```ts
 if (!response.ok)
@@ -950,7 +963,7 @@ These are reusable UI building blocks that we use instead of repeatedly building
 Open:
 
 ```text
-src/components/DestinationForm.tsx
+src/components/destination/form/DestinationForm.tsx
 ```
 
 Starting on line 13, add the following:
@@ -1307,7 +1320,7 @@ At this point the form validation works, but we still need to build the destinat
 Open:
 
 ```text
-src/components/DestinationList.tsx
+src/components/destination/list/DestinationList.tsx
 ```
 
 In the destination mapping, add the city and country:
@@ -1825,16 +1838,17 @@ Your project now includes:
 src/
 │
 ├── components/
-│   │
-│   ├── DestinationForm.tsx
-│   │       │
-│   │       ├── Form
-│   │       ├── Validation
-│   │       └── POST Mutation
-│   │
-│   ├── DestinationList.tsx
-│   │       │
-│   │       └── Display Destinations
+│   ├── destination/
+│   │   ├── form/
+│   │   │   ├── DestinationForm.module.css
+│   │   │   └── DestinationForm.tsx
+│   │   │           ├── Form
+│   │   │           ├── Validation
+│   │   │           └── POST Mutation
+│   │   └── list/
+│   │       ├── DestinationList.module.css
+│   │       └── DestinationList.tsx
+│   │               └── Display Destinations
 │   │
 │   └── ui/
 │           │
@@ -1845,13 +1859,14 @@ src/
 │
 ├── lib/
 │   │
-│   ├── api.ts
-│   │       │
-│   │       └── Xano Communication
-│   │
 │   └── queryKeys.ts
 │           │
 │           └── Query Identifiers
+│
+├── services/
+│   └── destinationService.ts
+│           │
+│           └── Xano Communication
 │
 ├── pages/
 │   │
@@ -2287,16 +2302,16 @@ You may see something similar to:
 
 ```text
 modified:
-  src/components/DestinationForm.tsx
+  src/components/destination/form/DestinationForm.tsx
 
 modified:
-  src/lib/api.ts
+  src/services/destinationService.ts
 
 modified:
   src/pages/TravelWishlist.tsx
 
 new file:
-  src/components/DestinationList.tsx
+  src/components/destination/list/DestinationList.tsx
 
 new file:
   src/lib/queryKeys.ts
