@@ -341,6 +341,8 @@ Keep the terminal running.
 
 Your computer is now serving the application locally.
 
+![initial-app](tutorialAssets/intialLoad.png)
+
 ---
 
 ## 10. Explore the Project
@@ -518,6 +520,8 @@ Nairobi   | Kenya
 
 We are adding data manually so that we have something to retrieve when we build our GET request.
 
+![xano-db-screenshot](tutorialAssets/DBwithValues.png)
+
 ---
 
 ## 14.Test the GET Endpoint in Xano
@@ -561,6 +565,8 @@ You should receive something similar to:
 ```
 
 If this works, your GET endpoint is ready.
+
+![tested-xano-get-endpoint](tutorialAssets/testedGetEndpoint.png)
 
 ---
 
@@ -966,7 +972,7 @@ Open:
 src/components/destination/form/DestinationForm.tsx
 ```
 
-Starting on line 13, add the following:
+Starting on line 14, add the following:
 
 ```tsx
 const destinationSchema = z.object({
@@ -977,19 +983,20 @@ const destinationSchema = z.object({
 type DestinationFormValues = z.infer<typeof destinationSchema>;
 ```
 
-On line 41, add the following:
+On line 47, add the following:
 
 ```tsx
   function onSubmit(values: DestinationFormValues) {
     addDestinationMutation.mutate(values);
   }
+
 ```
-On line 52, add the following:
+On line 60, add the following:
 
 ```tsx
           onSubmit={handleSubmit(onSubmit)}
 ```
-On line 67, add the following:
+On line 75, add the following:
 
 ```tsx          
             {errors.city ? (
@@ -1002,7 +1009,7 @@ On line 67, add the following:
               </p>
             ) : null}
 ```
-On line 82, add the following:
+On line 99, add the following:
 
 ```tsx
             {errors.country ? (
@@ -1311,6 +1318,8 @@ Try entering only spaces.
 
 The form should still reject the values.
 
+![form-validation-screenshot](tutorialAssets/formValidation.png)
+
 At this point the form validation works, but we still need to build the destination list.
 
 ---
@@ -1323,7 +1332,7 @@ Open:
 src/components/destination/list/DestinationList.tsx
 ```
 
-In the destination mapping, add the city and country:
+On line 49, in the destination mapping, add the city and country:
 
 ```tsx
         <p className="font-semibold">{destination.city}</p>
@@ -1332,6 +1341,9 @@ In the destination mapping, add the city and country:
 
 Save the file.
 
+You should see:
+
+![newly-added-list-component](tutorialAssets/newlyAddedListComponent.png)
 ---
 
 ## 34. Understanding Props
@@ -1490,11 +1502,18 @@ Open:
 src/pages/TravelWishlist.tsx
 ```
 
-Below the page header, add the form and destination list:
+Find the placeholder card below `<DestinationForm />`:
 
 ```tsx
-        <DestinationForm />
+        {/* TODO: Replace this placeholder with the DestinationList component. */}
+        <Card>
+          {/* Placeholder content */}
+        </Card>
+```
 
+Replace the entire placeholder card, including the TODO comment, with:
+
+```tsx
         <DestinationList
           destinations={destinations}
           error={error}
@@ -1502,7 +1521,12 @@ Below the page header, add the form and destination list:
           isRefreshing={isFetching}
           onRetry={() => void refetch()}
         />
+```
 
+Because the placeholder card is gone, also remove this unused import:
+
+```tsx
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 ```
 
 Save the file.
@@ -1642,14 +1666,14 @@ Your browser should now display the destinations stored in Xano.
 If Xano contains:
 
 ```text
-Tokyo     Japan
-Chicago   United States
-Nairobi   Kenya
+Paris     France
 ```
 
 those destinations should appear in the application.
 
-If they do not appear, do not continue yet.
+![get-flow-screenshot](tutorialAssets/listValuesFromDB.png)
+
+If they do not appear when you have data in your DB table, do not continue yet.
 
 Check:
 
@@ -1660,6 +1684,9 @@ Check:
 5. Does the browser console show an error?
 6. Does the browser Network tab show the request?
 
+If you do NOT have data in your table, you will see an empty destination list:
+
+![empty-destination-list](tutorialAssets/destinationWEmptyDB.png)
 ---
 
 ## 43. Create and Test the POST Endpoint in Xano
@@ -1695,10 +1722,11 @@ Test it with:
 
 ```json
 {
-  "city": "Rome",
-  "country": "Italy"
+  "city": "Granada",
+  "country": "Spain"
 }
 ```
+![xano-post-test](tutorialAssets/postDataTest.png)
 
 Run the endpoint.
 
@@ -1707,9 +1735,11 @@ Check the database.
 You should see a new record for:
 
 ```text
-Rome
-Italy
+Granada
+Spain
 ```
+
+![xano-post-test-result](tutorialAssets/postTestResult.png)
 
 Do not test the React form until the POST endpoint works directly in Xano.
 
@@ -1781,6 +1811,9 @@ Expected results:
 - The form clears
 - The destination list refreshes
 - Seoul appears without manually refreshing the page
+
+![post-flow-screenshot](tutorialAssets/postFlow.png)
+![post-final-result](tutorialAssets/finalResult.png)
 
 ---
 
