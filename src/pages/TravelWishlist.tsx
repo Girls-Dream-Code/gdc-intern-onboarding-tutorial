@@ -1,33 +1,60 @@
-import { DestinationForm } from "@/components/DestinationForm";
+// import { useQuery } from "@tanstack/react-query";
+
+import { DestinationForm } from "@/components/destination/form/DestinationForm";
+// import { DestinationList } from "@/components/destination/list/DestinationList";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import gdcLogo from "@/assets/gdc-logo.png";
+// import { getDestinations } from "@/services/destinationService";
+// import { destinationQueryKey } from "@/lib/queryKeys";
+import styles from "./TravelWishlist.module.css";
 
 export function TravelWishlist() {
-  // TODO: Use useQuery to retrieve destinations from Xano.
-  // TODO: Add loading, error, empty, and success states for the destination list.
+  /*
+  const {
+    data: destinations = [],
+    error,
+    isPending,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: destinationQueryKey,
+    queryFn: getDestinations,
+  });
+  */
 
   return (
-    <main className="min-h-screen bg-background px-4 py-12 text-foreground sm:px-6">
-      <div className="mx-auto flex w-full max-w-2xl flex-col gap-8">
-        <header className="space-y-3 text-center">
+    <main className={styles.page}>
+      <div className={styles.container}>
+        <header className={styles.header}>
           <img
             src={gdcLogo}
-            alt="Girls Dream Code — Aspire To Be Great and Innovate!"
-            className="mx-auto h-auto w-full max-w-xl"
+            alt="Girls Dream Code - Aspire To Be Great and Innovate!"
+            className={styles.logo}
           />
-          <h1 className="pt-2 text-4xl font-bold tracking-tight sm:text-5xl">Travel Wishlist</h1>
-          <p className="mx-auto max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
-            Add somewhere you'd love to visit! This page will save your destinations and display them here.
+
+          <h1 className={styles.title}>
+            Travel Wishlist
+          </h1>
+
+          <p className={styles.description}>
+            Add somewhere you'd love to visit! This page will save your
+            destinations and display them here.
           </p>
         </header>
 
         <DestinationForm />
 
+        {/* TODO: Replace this placeholder with the DestinationList component. */}
         <Card>
-          <CardHeader><CardTitle>My Destinations</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle>My Destinations</CardTitle>
+          </CardHeader>
+
           <CardContent>
-            <div className="rounded-lg border border-dashed border-border bg-muted/50 p-8 text-center">
-              <p className="text-sm text-muted-foreground">Display destinations here</p>
+            <div className={styles.placeholder}>
+              <p className={styles.placeholderText}>
+                Complete the tutorial steps to display destinations here.
+              </p>
             </div>
           </CardContent>
         </Card>

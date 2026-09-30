@@ -64,14 +64,26 @@ Later in the tutorial, add your Xano API base URL after `VITE_XANO_BASE_URL=` in
 ```text
 src/
 ├── components/
+│   ├── destination/
+│   │   ├── form/
+│   │   │   ├── DestinationForm.module.css
+│   │   │   └── DestinationForm.tsx
+│   │   └── list/
+│   │       ├── DestinationList.module.css
+│   │       └── DestinationList.tsx
 │   ├── ui/
-│   │   └── card.tsx
-│   └── DestinationForm.tsx
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── input.tsx
+│   │   └── label.tsx
 ├── pages/
+│   ├── TravelWishlist.module.css
 │   └── TravelWishlist.tsx
 ├── lib/
-│   ├── api.ts
+│   ├── queryKeys.ts
 │   └── utils.ts
+├── services/
+│   └── destinationService.ts
 ├── types/
 │   └── destination.ts
 ├── App.tsx
@@ -79,9 +91,12 @@ src/
 └── index.css
 ```
 
-- `components/` contains reusable parts of the interface.
+- `components/destination/` groups the destination form and list by feature.
+- Each destination component keeps its scoped CSS Module beside its `.tsx` file.
+- `components/ui/` contains shared interface building blocks.
 - `pages/` contains complete screens connected to routes.
-- `lib/api.ts` is the shared home for future Xano requests.
+- `services/destinationService.ts` contains the Xano requests for destinations.
+- `lib/queryKeys.ts` contains shared TanStack Query cache keys.
 - `lib/utils.ts` contains the class-name helper used by shadcn/ui.
 - `types/` describes the shape of shared application data.
 

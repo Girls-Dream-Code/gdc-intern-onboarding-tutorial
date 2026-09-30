@@ -1,0 +1,41 @@
+.form > * + * {
+  margin-top: 1.25rem;
+}
+
+.fieldGroup > * + * {
+  margin-top: 0.5rem;
+}
+
+.submitError {
+  padding: 0.75rem;
+  border: 1px solid rgb(185 28 28 / 30%);
+  border-radius: 0.375rem;
+  color: #991b1b;
+  background: #fef2f2;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.submitButton {
+  width: 100%;
+}
+
+.placeholder {
+  padding: 2rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--muted) 50%, transparent);
+  text-align: center;
+}
+
+.placeholderText {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+@media (min-width: 40rem) {
+  .submitButton {
+    width: auto;
+  }
+}
