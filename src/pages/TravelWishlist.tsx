@@ -44,7 +44,7 @@ export function TravelWishlist() {
 
         <DestinationForm />
 
-        {/* TODO: Replace this placeholder with the DestinationList component. */}
+        {/* TODO: Replace this entire placeholder Card with DestinationList. */}
         <Card>
           <CardHeader>
             <CardTitle>My Destinations</CardTitle>
