@@ -270,10 +270,10 @@ cd gdc-intern-onboarding-tutorial
 
 We do not want to develop directly on the `main` branch.
 
-Create a feature branch:
+Create a feature branch from `main`:
 
 ```bash
-git switch -c feature/travel-wishlist
+git checkout -b feature/<your-name>-travel-wishlist
 ```
 
 Verify your branch:
@@ -285,7 +285,7 @@ git branch
 You should see:
 
 ```text
-* feature/travel-wishlist
+* feature/<your-name>-travel-wishlist
   main
 ```
 
