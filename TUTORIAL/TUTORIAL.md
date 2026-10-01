@@ -604,7 +604,55 @@ An array of destination objects.
 
 ---
 
-## 16. Understand the Destination Types
+## 16. Configure the Xano Environment Variable
+
+Find:
+
+```text
+.env.example
+```
+
+Create a new file in the project root named:
+
+```text
+.env
+```
+
+Add:
+
+```text
+VITE_XANO_BASE_URL=YOUR_XANO_API_GROUP_URL
+VITE_XANO_DESTINATION_PATH=/destination-your-name
+```
+
+For example:
+
+```text
+VITE_XANO_BASE_URL=https://example.xano.io/api:ABC123
+VITE_XANO_DESTINATION_PATH=/destination-<your-name>
+```
+
+Do not include the destination path in `VITE_XANO_BASE_URL`.
+
+`VITE_XANO_DESTINATION_PATH` must match the personalized GET and POST endpoint path you created in Xano. Keep the leading `/` and replace `your-name` with the same name you used for your table.
+
+Do not place passwords, private API keys, authentication tokens, or other secrets in a `VITE_` environment variable.
+
+Restart Vite after creating or changing `.env`:
+
+```text
+Ctrl + C
+```
+
+Then:
+
+```bash
+npm run dev
+```
+
+---
+
+## 17. Understand the Destination Types
 
 Open:
 
@@ -658,54 +706,6 @@ country
 ```
 
 Xano creates the ID.
-
----
-
-## 17. Configure the Xano Environment Variable
-
-Find:
-
-```text
-.env.example
-```
-
-Create a new file in the project root named:
-
-```text
-.env
-```
-
-Add:
-
-```text
-VITE_XANO_BASE_URL=YOUR_XANO_API_GROUP_URL
-VITE_XANO_DESTINATION_PATH=/destination-your-name
-```
-
-For example:
-
-```text
-VITE_XANO_BASE_URL=https://example.xano.io/api:ABC123
-VITE_XANO_DESTINATION_PATH=/destination-<your-name>
-```
-
-Do not include the destination path in `VITE_XANO_BASE_URL`.
-
-`VITE_XANO_DESTINATION_PATH` must match the personalized GET and POST endpoint path you created in Xano. Keep the leading `/` and replace `your-name` with the same name you used for your table.
-
-Do not place passwords, private API keys, authentication tokens, or other secrets in a `VITE_` environment variable.
-
-Restart Vite after creating or changing `.env`:
-
-```text
-Ctrl + C
-```
-
-Then:
-
-```bash
-npm run dev
-```
 
 ---
 
