@@ -524,9 +524,9 @@ We are adding data manually so that we have something to retrieve when we build 
 
 ---
 
-## 14. Create and Test the GET Endpoint in Xano
+## 14. Test the GET Endpoint in Xano
 
-Open the API section in Xano and create:
+Open the API section in Xano and select:
 
 ```text
 GET /destination-<your-name>
