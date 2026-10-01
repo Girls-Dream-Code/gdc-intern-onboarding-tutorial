@@ -32,7 +32,7 @@ Our finished application will follow this architecture:
 │                           │
 │           Xano            │
 │                           │
-│      /destination         │
+│ /destination-<your-name> │
 └─────────────┬─────────────┘
               │
               │ Read / Write
@@ -42,7 +42,7 @@ Our finished application will follow this architecture:
 │                           │
 │           Xano            │
 │                           │
-│    destination table      │
+│ destination-<your-name>  │
 └───────────────────────────┘
 ```
 
@@ -477,8 +477,10 @@ Open the Girls Dream Code Xano workspace.
 Create a database table named:
 
 ```text
-destination
+destination-<your-name>
 ```
+
+Replace `<your-name>` with your name in lowercase, using hyphens instead of spaces. For example, Kayla would create `destination-kayla`. Each intern must use their own name so their work does not change another intern's data.
 
 The table needs:
 
@@ -491,7 +493,7 @@ The table needs:
 A database table can be thought of somewhat like a spreadsheet:
 
 ```text
-destination
+destination-<your-name>
 
 ┌────┬───────────┬─────────────────┐
 │ id │ city      │ country         │
@@ -522,20 +524,22 @@ We are adding data manually so that we have something to retrieve when we build 
 
 ![xano-db-screenshot](tutorialAssets/DBwithValues.png)
 
+The screenshot shows the example table name `destination`. Your table will display your personalized name, such as `destination-kayla`.
+
 ---
 
-## 14.Test the GET Endpoint in Xano
+## 14. Create and Test the GET Endpoint in Xano
 
-Open the API section in Xano and select:
+Open the API section in Xano and create:
 
 ```text
-GET /destination
+GET /destination-<your-name>
 ```
 
 Inside the endpoint's function stack, query all records from:
 
 ```text
-destination
+destination-<your-name>
 ```
 
 Save the endpoint.
@@ -679,17 +683,19 @@ Add:
 
 ```text
 VITE_XANO_BASE_URL=YOUR_XANO_API_GROUP_URL
+VITE_XANO_DESTINATION_PATH=/destination-your-name
 ```
 
 For example:
 
 ```text
 VITE_XANO_BASE_URL=https://example.xano.io/api:ABC123
+VITE_XANO_DESTINATION_PATH=/destination-kayla
 ```
 
-Do not include `/destination`.
+Do not include the destination path in `VITE_XANO_BASE_URL`.
 
-The application will add that separately.
+`VITE_XANO_DESTINATION_PATH` must match the personalized GET and POST endpoint path you created in Xano. Keep the leading `/` and replace `your-name` with the same name you used for your table.
 
 Do not place passwords, private API keys, authentication tokens, or other secrets in a `VITE_` environment variable.
 
@@ -764,10 +770,10 @@ retrieves the URL from `.env`.
 This line:
 
 ```ts
-const DESTINATION_PATH = "/destination";
+const DESTINATION_PATH = import.meta.env.VITE_XANO_DESTINATION_PATH;
 ```
 
-stores our endpoint path.
+retrieves your personalized endpoint path from `.env`.
 
 Together:
 
@@ -776,11 +782,11 @@ https://example.xano.io/api:ABC123
 
 +
 
-/destination
+/destination-kayla
 
 =
 
-https://example.xano.io/api:ABC123/destination
+https://example.xano.io/api:ABC123/destination-kayla
 ```
 
 ---
@@ -849,7 +855,7 @@ getDestinations()
 eventually performs:
 
 ```text
-GET /destination
+GET /destination-<your-name>
 ```
 
 The POST request explicitly includes:
@@ -1238,7 +1244,7 @@ mutate(values)
 addDestination(values)
     │
     ▼
-POST /destination
+POST /destination-<your-name>
 ```
 
 ---
@@ -1580,7 +1586,7 @@ getDestinations()
 fetch()
    │
    ▼
-GET /destination
+GET /destination-<your-name>
    │
    ▼
 Xano
@@ -1678,9 +1684,9 @@ If they do not appear when you have data in your DB table, do not continue yet.
 Check:
 
 1. Does the GET endpoint work directly in Xano?
-2. Is `VITE_XANO_BASE_URL` correct?
+2. Are `VITE_XANO_BASE_URL` and `VITE_XANO_DESTINATION_PATH` correct?
 3. Did you restart Vite after creating `.env`?
-4. Is your endpoint named `/destination`?
+4. Does your endpoint match `VITE_XANO_DESTINATION_PATH` (for example, `/destination-kayla`)?
 5. Does the browser console show an error?
 6. Does the browser Network tab show the request?
 
@@ -1694,7 +1700,7 @@ If you do NOT have data in your table, you will see an empty destination list:
 Return to the API section in Xano and create:
 
 ```text
-POST /destination
+POST /destination-<your-name>
 ```
 
 Add two required text inputs:
@@ -1704,16 +1710,16 @@ city
 country
 ```
 
-Inside the function stack, add a record to the `destination` table. Map the inputs as follows:
+Inside the function stack, add a record to your `destination-<your-name>` table. Map the inputs as follows:
 
 ```text
 Input city
     ↓
-destination.city
+destination-<your-name>.city
 
 Input country
     ↓
-destination.country
+destination-<your-name>.country
 ```
 
 Return the created destination record and save the endpoint.
@@ -1783,7 +1789,7 @@ useMutation()
 addDestination()
         │
         ▼
-POST /destination
+POST /destination-<your-name>
         │
         ▼
 Xano
@@ -1799,7 +1805,7 @@ Mutation Success
         └── invalidateQueries()
                  │
                  ▼
-         GET /destination
+         GET /destination-<your-name>
                  │
                  ▼
            Updated List
@@ -1850,9 +1856,9 @@ API.TS
  ▼
 HTTP
  │
- ├── GET /destination
+ ├── GET /destination-<your-name>
  │
- └── POST /destination
+ └── POST /destination-<your-name>
  │
  ▼
 XANO
@@ -2169,7 +2175,7 @@ Refresh the application.
 Find the request to:
 
 ```text
-destination
+destination-<your-name>
 ```
 
 Click the request.
@@ -2530,13 +2536,13 @@ getDestinations()
 fetch()
       │
       ▼
-GET /destination
+GET /destination-<your-name>
       │
       ▼
 Xano API
       │
       ▼
-destination Table
+destination-<your-name> Table
       │
       ▼
 JSON Response
@@ -2581,7 +2587,7 @@ useMutation()
 addDestination()
  │
  ▼
-POST /destination
+POST /destination-<your-name>
  │
  ▼
 Xano
@@ -2600,7 +2606,7 @@ onSuccess()
  └── invalidateQueries()
             │
             ▼
-      GET /destination
+      GET /destination-<your-name>
             │
             ▼
        Updated Data
@@ -2623,9 +2629,9 @@ The same architecture can be reused for larger applications.
 Today:
 
 ```text
-GET /destination
+GET /destination-<your-name>
 
-POST /destination
+POST /destination-<your-name>
 ```
 
 Another application might use:
@@ -2709,8 +2715,8 @@ Before submitting your Pull Request, confirm:
 - [ ] `npm install` completed successfully
 - [ ] The project starts with `npm run dev`
 - [ ] The Travel Wishlist page loads
-- [ ] `.env` contains the correct Xano base URL
-- [ ] GET `/destination` works directly in Xano
+- [ ] `.env` contains the correct Xano base URL and personalized destination path
+- [ ] GET `/destination-<your-name>` works directly in Xano
 - [ ] Existing Xano destinations appear in React
 - [ ] Loading state works
 - [ ] Empty state works
@@ -2718,7 +2724,7 @@ Before submitting your Pull Request, confirm:
 - [ ] City is required
 - [ ] Country is required
 - [ ] Spaces-only values fail validation
-- [ ] POST `/destination` works directly in Xano
+- [ ] POST `/destination-<your-name>` works directly in Xano
 - [ ] A destination can be submitted from React
 - [ ] POST creates exactly one database record
 - [ ] The form clears after success
@@ -2767,9 +2773,9 @@ Look for the localhost URL in the terminal.
 Check:
 
 1. Does GET work directly in Xano?
-2. Is `VITE_XANO_BASE_URL` correct?
+2. Are `VITE_XANO_BASE_URL` and `VITE_XANO_DESTINATION_PATH` correct?
 3. Did you restart Vite?
-4. Is the endpoint `/destination`?
+4. Does the endpoint match `VITE_XANO_DESTINATION_PATH`?
 5. Check the browser Network tab.
 6. Check the browser Console.
 

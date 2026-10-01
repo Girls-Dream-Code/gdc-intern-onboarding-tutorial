@@ -57,7 +57,7 @@ Copy `.env.example` to a new file named `.env`:
 .env.example → .env
 ```
 
-Later in the tutorial, add your Xano API base URL after `VITE_XANO_BASE_URL=` in `.env`. Do not commit `.env`, API keys, passwords, tokens, or other secrets. Vite exposes variables beginning with `VITE_` to browser code, so they must never contain secrets.
+Later in the tutorial, add your Xano API base URL after `VITE_XANO_BASE_URL=` and replace `your-name` in `VITE_XANO_DESTINATION_PATH` with your name. Do not commit `.env`, API keys, passwords, tokens, or other secrets. Vite exposes variables beginning with `VITE_` to browser code, so they must never contain secrets.
 
 ## Starter structure
 
@@ -127,8 +127,8 @@ By the end of the tutorial, you will learn:
 
 The starter deliberately does **not** include the finished feature. You will:
 
-- Create the Xano destination table and sample records
-- Create `GET /destination` and `POST /destination` endpoints
+- Create your own `destination-<your-name>` Xano table and sample records
+- Create `GET /destination-<your-name>` and `POST /destination-<your-name>` endpoints
 - Build the city and country form fields
 - Add required-field validation with React Hook Form and Zod
 - Retrieve destinations with a TanStack Query query
