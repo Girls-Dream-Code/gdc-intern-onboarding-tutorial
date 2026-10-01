@@ -480,8 +480,6 @@ Create a database table named:
 destination-<your-name>
 ```
 
-Replace `<your-name>` with your name in lowercase, using hyphens instead of spaces. For example, Kayla would create `destination-kayla`. Each intern must use their own name so their work does not change another intern's data.
-
 The table needs:
 
 | Field | Type | Required |
@@ -523,8 +521,6 @@ Nairobi   | Kenya
 We are adding data manually so that we have something to retrieve when we build our GET request.
 
 ![xano-db-screenshot](tutorialAssets/DBwithValues.png)
-
-The screenshot shows the example table name `destination`. Your table will display your personalized name, such as `destination-kayla`.
 
 ---
 
@@ -690,7 +686,7 @@ For example:
 
 ```text
 VITE_XANO_BASE_URL=https://example.xano.io/api:ABC123
-VITE_XANO_DESTINATION_PATH=/destination-kayla
+VITE_XANO_DESTINATION_PATH=/destination-<your-name>
 ```
 
 Do not include the destination path in `VITE_XANO_BASE_URL`.
@@ -782,11 +778,11 @@ https://example.xano.io/api:ABC123
 
 +
 
-/destination-kayla
+/destination-<your-name>
 
 =
 
-https://example.xano.io/api:ABC123/destination-kayla
+https://example.xano.io/api:ABC123/destination-<your-name>
 ```
 
 ---
@@ -1686,7 +1682,7 @@ Check:
 1. Does the GET endpoint work directly in Xano?
 2. Are `VITE_XANO_BASE_URL` and `VITE_XANO_DESTINATION_PATH` correct?
 3. Did you restart Vite after creating `.env`?
-4. Does your endpoint match `VITE_XANO_DESTINATION_PATH` (for example, `/destination-kayla`)?
+4. Does your endpoint match `VITE_XANO_DESTINATION_PATH`?
 5. Does the browser console show an error?
 6. Does the browser Network tab show the request?
 
