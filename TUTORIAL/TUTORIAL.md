@@ -709,7 +709,43 @@ npm run dev
 
 ---
 
-## 18. Build the Destination Service
+## 18. Understand the API File
+
+Let's take a look at the helper code already in `src/services/destinationService.ts`.
+
+This line:
+
+```ts
+const XANO_BASE_URL = import.meta.env.VITE_XANO_BASE_URL;
+```
+
+retrieves the URL from `.env`.
+
+This line:
+
+```ts
+const DESTINATION_PATH = import.meta.env.VITE_XANO_DESTINATION_PATH;
+```
+
+retrieves your personalized endpoint path from `.env`.
+
+Together:
+
+```text
+https://example.xano.io/api:ABC123
+
++
+
+/destination-<your-name>
+
+=
+
+https://example.xano.io/api:ABC123/destination-<your-name>
+```
+
+---
+
+## 19. Build the Destination Service
 
 Open:
 
@@ -750,40 +786,6 @@ export async function addDestination(
 ```
 
 Save the file.
-
----
-
-## 19. Understand the API File
-
-This line:
-
-```ts
-const XANO_BASE_URL = import.meta.env.VITE_XANO_BASE_URL;
-```
-
-retrieves the URL from `.env`.
-
-This line:
-
-```ts
-const DESTINATION_PATH = import.meta.env.VITE_XANO_DESTINATION_PATH;
-```
-
-retrieves your personalized endpoint path from `.env`.
-
-Together:
-
-```text
-https://example.xano.io/api:ABC123
-
-+
-
-/destination-<your-name>
-
-=
-
-https://example.xano.io/api:ABC123/destination-<your-name>
-```
 
 ---
 
@@ -966,7 +968,69 @@ These are reusable UI building blocks that we use instead of repeatedly building
 
 ---
 
-## 25. Build the Destination Form
+## 25. Understanding React Hook Form
+
+Before editing the form, look at the commented starter code in `src/components/destination/form/DestinationForm.tsx`.
+
+This code:
+
+```ts
+const {
+  register,
+  handleSubmit,
+  reset,
+  formState: { errors },
+} = useForm<DestinationFormValues>({
+```
+
+gives us several tools:
+
+```text
+register
+    ↓
+Connect inputs to the form
+
+handleSubmit
+    ↓
+Process form submission
+
+reset
+    ↓
+Clear the form
+
+errors
+    ↓
+Validation errors
+```
+
+This:
+
+```ts
+resolver: zodResolver(destinationSchema)
+```
+
+connects React Hook Form to Zod.
+
+The flow becomes:
+
+```text
+User Input
+    │
+    ▼
+React Hook Form
+    │
+    ▼
+Zod
+   / \
+Valid Invalid
+  │      │
+  ▼      ▼
+Submit  Error
+```
+
+---
+
+## 26. Build the Destination Form
 
 Open:
 
@@ -1029,7 +1093,7 @@ Save the file.
 
 ---
 
-## 26. Understanding Zod Validation
+## 27. Understanding Zod Validation
 
 At the top of the file:
 
@@ -1076,66 +1140,6 @@ trim()
 ""
    ↓
 Invalid
-```
-
----
-
-## 27. Understanding React Hook Form
-
-This code:
-
-```ts
-const {
-  register,
-  handleSubmit,
-  reset,
-  formState: { errors },
-} = useForm<DestinationFormValues>({
-```
-
-gives us several tools:
-
-```text
-register
-    ↓
-Connect inputs to the form
-
-handleSubmit
-    ↓
-Process form submission
-
-reset
-    ↓
-Clear the form
-
-errors
-    ↓
-Validation errors
-```
-
-This:
-
-```ts
-resolver: zodResolver(destinationSchema)
-```
-
-connects React Hook Form to Zod.
-
-The flow becomes:
-
-```text
-User Input
-    │
-    ▼
-React Hook Form
-    │
-    ▼
-Zod
-   / \
-Valid Invalid
-  │      │
-  ▼      ▼
-Submit  Error
 ```
 
 ---
@@ -1326,29 +1330,14 @@ At this point the form validation works, but we still need to build the destinat
 
 ---
 
-## 33. Create `DestinationList.tsx`
+## 33. Understanding Props
+
 
 Open:
 
 ```text
 src/components/destination/list/DestinationList.tsx
 ```
-
-On line 49, in the destination mapping, add the city and country:
-
-```tsx
-        <p className="font-semibold">{destination.city}</p>
-        <p className="text-sm text-muted-foreground">{destination.country}</p>
-```
-
-Save the file.
-
-You should see:
-
-![newly-added-list-component](tutorialAssets/newlyAddedListComponent.png)
----
-
-## 34. Understanding Props
 
 Our `DestinationList` does not retrieve its own data.
 
@@ -1385,7 +1374,7 @@ TravelWishlist
 
 ---
 
-## 35. Understanding UI States
+## 34. Understanding UI States
 
 The destination list handles four major situations.
 
@@ -1424,6 +1413,28 @@ A successful request returning zero records is different from a failed request.
 
 That is why empty and error are separate states.
 
+---
+
+## 35. Create `DestinationList.tsx`
+
+Open:
+
+```text
+src/components/destination/list/DestinationList.tsx
+```
+
+On line 49, in the destination mapping, add the city and country:
+
+```tsx
+        <p className="font-semibold">{destination.city}</p>
+        <p className="text-sm text-muted-foreground">{destination.country}</p>
+```
+
+Save the file.
+
+You should see:
+
+![newly-added-list-component](tutorialAssets/newlyAddedListComponent.png)
 ---
 
 ## 36. Understanding `.map()`
@@ -1496,46 +1507,9 @@ Our Xano ID provides that identifier.
 
 ---
 
-## 38. Connect Everything in `TravelWishlist.tsx`
+## 38. Understanding `useQuery()`
 
-Open:
-
-```text
-src/pages/TravelWishlist.tsx
-```
-
-Find the placeholder card below `<DestinationForm />`:
-
-```tsx
-        {/* TODO: Replace this placeholder with the DestinationList component. */}
-        <Card>
-          {/* Placeholder content */}
-        </Card>
-```
-
-Replace the entire placeholder card, including the TODO comment, with:
-
-```tsx
-        <DestinationList
-          destinations={destinations}
-          error={error}
-          isLoading={isPending}
-          isRefreshing={isFetching}
-          onRetry={() => void refetch()}
-        />
-```
-
-Because the placeholder card is gone, also remove this unused import:
-
-```tsx
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-```
-
-Save the file.
-
----
-
-## 39. Understanding `useQuery()`
+Before replacing the placeholder card, look at the commented query setup in `src/pages/TravelWishlist.tsx`.
 
 The most important part of the page is:
 
@@ -1593,7 +1567,7 @@ Destination[]
 
 ---
 
-## 40. Understanding Query Results
+## 39. Understanding Query Results
 
 TanStack Query gives us several useful values.
 
@@ -1624,6 +1598,45 @@ This can also happen during a refresh.
 ### `refetch`
 
 Allows us to manually request the data again.
+
+---
+
+## 40. Connect Everything in `TravelWishlist.tsx`
+
+Open:
+
+```text
+src/pages/TravelWishlist.tsx
+```
+
+Find the placeholder card below `<DestinationForm />`:
+
+```tsx
+        {/* TODO: Replace this placeholder with the DestinationList component. */}
+        <Card>
+          {/* Placeholder content */}
+        </Card>
+```
+
+Replace the entire placeholder card, including the TODO comment, with:
+
+```tsx
+        <DestinationList
+          destinations={destinations}
+          error={error}
+          isLoading={isPending}
+          isRefreshing={isFetching}
+          onRetry={() => void refetch()}
+        />
+```
+
+Because the placeholder card is gone, also remove this unused import:
+
+```tsx
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+```
+
+Save the file.
 
 ---
 
