@@ -2,18 +2,23 @@
 import type { Destination, NewDestination } from "@/types/destination";
 
 const XANO_BASE_URL = import.meta.env.VITE_XANO_BASE_URL;
-const DESTINATION_PATH = "/destination";
+const DESTINATION_PATH = import.meta.env.VITE_XANO_DESTINATION_PATH;
 
 function getDestinationUrl() {
   const baseUrl = XANO_BASE_URL?.trim().replace(/\/+$/, "");
+  const destinationPath = DESTINATION_PATH?.trim();
 
-  if (!baseUrl) {
+  if (!baseUrl || !destinationPath) {
     throw new Error(
-      "Add your Xano API base URL to the .env file, then restart the development server.",
+      "Add your Xano API base URL and destination path to the .env file, then restart the development server.",
     );
   }
 
-  return `${baseUrl}${DESTINATION_PATH}`;
+  const normalizedPath = destinationPath.startsWith("/")
+    ? destinationPath
+    : `/${destinationPath}`;
+
+  return `${baseUrl}${normalizedPath}`;
 }
 
 async function getErrorMessage(response: Response) {

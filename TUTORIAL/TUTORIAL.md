@@ -32,7 +32,7 @@ Our finished application will follow this architecture:
 │                           │
 │           Xano            │
 │                           │
-│      /destination         │
+│ /destination-<your-name> │
 └─────────────┬─────────────┘
               │
               │ Read / Write
@@ -42,7 +42,7 @@ Our finished application will follow this architecture:
 │                           │
 │           Xano            │
 │                           │
-│    destination table      │
+│ destination-<your-name>  │
 └───────────────────────────┘
 ```
 
@@ -270,10 +270,10 @@ cd gdc-intern-onboarding-tutorial
 
 We do not want to develop directly on the `main` branch.
 
-Create a feature branch:
+Create a feature branch from `main`:
 
 ```bash
-git switch -c feature/travel-wishlist
+git checkout -b feature/<your-name>-travel-wishlist
 ```
 
 Verify your branch:
@@ -285,7 +285,7 @@ git branch
 You should see:
 
 ```text
-* feature/travel-wishlist
+* feature/<your-name>-travel-wishlist
   main
 ```
 
@@ -477,7 +477,7 @@ Open the Girls Dream Code Xano workspace.
 Create a database table named:
 
 ```text
-destination
+destination-<your-name>
 ```
 
 The table needs:
@@ -491,7 +491,7 @@ The table needs:
 A database table can be thought of somewhat like a spreadsheet:
 
 ```text
-destination
+destination-<your-name>
 
 ┌────┬───────────┬─────────────────┐
 │ id │ city      │ country         │
@@ -524,18 +524,18 @@ We are adding data manually so that we have something to retrieve when we build 
 
 ---
 
-## 14.Test the GET Endpoint in Xano
+## 14. Test the GET Endpoint in Xano
 
 Open the API section in Xano and select:
 
 ```text
-GET /destination
+GET /destination-<your-name>
 ```
 
 Inside the endpoint's function stack, query all records from:
 
 ```text
-destination
+destination-<your-name>
 ```
 
 Save the endpoint.
@@ -604,7 +604,55 @@ An array of destination objects.
 
 ---
 
-## 16. Understand the Destination Types
+## 16. Configure the Xano Environment Variable
+
+Find:
+
+```text
+.env.example
+```
+
+Create a new file in the project root named:
+
+```text
+.env
+```
+
+Add:
+
+```text
+VITE_XANO_BASE_URL=YOUR_XANO_API_GROUP_URL
+VITE_XANO_DESTINATION_PATH=/destination-your-name
+```
+
+For example:
+
+```text
+VITE_XANO_BASE_URL=https://example.xano.io/api:ABC123
+VITE_XANO_DESTINATION_PATH=/destination-<your-name>
+```
+
+Do not include the destination path in `VITE_XANO_BASE_URL`.
+
+`VITE_XANO_DESTINATION_PATH` must match the personalized GET and POST endpoint path you created in Xano. Keep the leading `/` and replace `your-name` with the same name you used for your table.
+
+Do not place passwords, private API keys, authentication tokens, or other secrets in a `VITE_` environment variable.
+
+Restart Vite after creating or changing `.env`:
+
+```text
+Ctrl + C
+```
+
+Then:
+
+```bash
+npm run dev
+```
+
+---
+
+## 17. Understand the Destination Types
 
 Open:
 
@@ -661,53 +709,43 @@ Xano creates the ID.
 
 ---
 
-## 17. Configure the Xano Environment Variable
+## 18. Understand the API File
 
-Find:
+Let's take a look at the helper code already in `src/services/destinationService.ts`.
 
-```text
-.env.example
+This line:
+
+```ts
+const XANO_BASE_URL = import.meta.env.VITE_XANO_BASE_URL;
 ```
 
-Create a new file in the project root named:
+retrieves the URL from `.env`.
 
-```text
-.env
+This line:
+
+```ts
+const DESTINATION_PATH = import.meta.env.VITE_XANO_DESTINATION_PATH;
 ```
 
-Add:
+retrieves your personalized endpoint path from `.env`.
+
+Together:
 
 ```text
-VITE_XANO_BASE_URL=YOUR_XANO_API_GROUP_URL
-```
+https://example.xano.io/api:ABC123
 
-For example:
++
 
-```text
-VITE_XANO_BASE_URL=https://example.xano.io/api:ABC123
-```
+/destination-<your-name>
 
-Do not include `/destination`.
+=
 
-The application will add that separately.
-
-Do not place passwords, private API keys, authentication tokens, or other secrets in a `VITE_` environment variable.
-
-Restart Vite after creating or changing `.env`:
-
-```text
-Ctrl + C
-```
-
-Then:
-
-```bash
-npm run dev
+https://example.xano.io/api:ABC123/destination-<your-name>
 ```
 
 ---
 
-## 18. Build the Destination Service
+## 19. Build the Destination Service
 
 Open:
 
@@ -748,40 +786,6 @@ export async function addDestination(
 ```
 
 Save the file.
-
----
-
-## 19. Understand the API File
-
-This line:
-
-```ts
-const XANO_BASE_URL = import.meta.env.VITE_XANO_BASE_URL;
-```
-
-retrieves the URL from `.env`.
-
-This line:
-
-```ts
-const DESTINATION_PATH = "/destination";
-```
-
-stores our endpoint path.
-
-Together:
-
-```text
-https://example.xano.io/api:ABC123
-
-+
-
-/destination
-
-=
-
-https://example.xano.io/api:ABC123/destination
-```
 
 ---
 
@@ -849,7 +853,7 @@ getDestinations()
 eventually performs:
 
 ```text
-GET /destination
+GET /destination-<your-name>
 ```
 
 The POST request explicitly includes:
@@ -964,7 +968,69 @@ These are reusable UI building blocks that we use instead of repeatedly building
 
 ---
 
-## 25. Build the Destination Form
+## 25. Understanding React Hook Form
+
+Before editing the form, look at the commented starter code in `src/components/destination/form/DestinationForm.tsx`.
+
+This code:
+
+```ts
+const {
+  register,
+  handleSubmit,
+  reset,
+  formState: { errors },
+} = useForm<DestinationFormValues>({
+```
+
+gives us several tools:
+
+```text
+register
+    ↓
+Connect inputs to the form
+
+handleSubmit
+    ↓
+Process form submission
+
+reset
+    ↓
+Clear the form
+
+errors
+    ↓
+Validation errors
+```
+
+This:
+
+```ts
+resolver: zodResolver(destinationSchema)
+```
+
+connects React Hook Form to Zod.
+
+The flow becomes:
+
+```text
+User Input
+    │
+    ▼
+React Hook Form
+    │
+    ▼
+Zod
+   / \
+Valid Invalid
+  │      │
+  ▼      ▼
+Submit  Error
+```
+
+---
+
+## 26. Build the Destination Form
 
 Open:
 
@@ -1027,7 +1093,7 @@ Save the file.
 
 ---
 
-## 26. Understanding Zod Validation
+## 27. Understanding Zod Validation
 
 At the top of the file:
 
@@ -1074,66 +1140,6 @@ trim()
 ""
    ↓
 Invalid
-```
-
----
-
-## 27. Understanding React Hook Form
-
-This code:
-
-```ts
-const {
-  register,
-  handleSubmit,
-  reset,
-  formState: { errors },
-} = useForm<DestinationFormValues>({
-```
-
-gives us several tools:
-
-```text
-register
-    ↓
-Connect inputs to the form
-
-handleSubmit
-    ↓
-Process form submission
-
-reset
-    ↓
-Clear the form
-
-errors
-    ↓
-Validation errors
-```
-
-This:
-
-```ts
-resolver: zodResolver(destinationSchema)
-```
-
-connects React Hook Form to Zod.
-
-The flow becomes:
-
-```text
-User Input
-    │
-    ▼
-React Hook Form
-    │
-    ▼
-Zod
-   / \
-Valid Invalid
-  │      │
-  ▼      ▼
-Submit  Error
 ```
 
 ---
@@ -1238,7 +1244,7 @@ mutate(values)
 addDestination(values)
     │
     ▼
-POST /destination
+POST /destination-<your-name>
 ```
 
 ---
@@ -1324,29 +1330,14 @@ At this point the form validation works, but we still need to build the destinat
 
 ---
 
-## 33. Create `DestinationList.tsx`
+## 33. Understanding Props
+
 
 Open:
 
 ```text
 src/components/destination/list/DestinationList.tsx
 ```
-
-On line 49, in the destination mapping, add the city and country:
-
-```tsx
-        <p className="font-semibold">{destination.city}</p>
-        <p className="text-sm text-muted-foreground">{destination.country}</p>
-```
-
-Save the file.
-
-You should see:
-
-![newly-added-list-component](tutorialAssets/newlyAddedListComponent.png)
----
-
-## 34. Understanding Props
 
 Our `DestinationList` does not retrieve its own data.
 
@@ -1383,7 +1374,7 @@ TravelWishlist
 
 ---
 
-## 35. Understanding UI States
+## 34. Understanding UI States
 
 The destination list handles four major situations.
 
@@ -1422,6 +1413,28 @@ A successful request returning zero records is different from a failed request.
 
 That is why empty and error are separate states.
 
+---
+
+## 35. Create `DestinationList.tsx`
+
+Open:
+
+```text
+src/components/destination/list/DestinationList.tsx
+```
+
+On line 49, in the destination mapping, add the city and country:
+
+```tsx
+        <p className="font-semibold">{destination.city}</p>
+        <p className="text-sm text-muted-foreground">{destination.country}</p>
+```
+
+Save the file.
+
+You should see:
+
+![newly-added-list-component](tutorialAssets/newlyAddedListComponent.png)
 ---
 
 ## 36. Understanding `.map()`
@@ -1494,46 +1507,9 @@ Our Xano ID provides that identifier.
 
 ---
 
-## 38. Connect Everything in `TravelWishlist.tsx`
+## 38. Understanding `useQuery()`
 
-Open:
-
-```text
-src/pages/TravelWishlist.tsx
-```
-
-Find the placeholder card below `<DestinationForm />`:
-
-```tsx
-        {/* TODO: Replace this placeholder with the DestinationList component. */}
-        <Card>
-          {/* Placeholder content */}
-        </Card>
-```
-
-Replace the entire placeholder card, including the TODO comment, with:
-
-```tsx
-        <DestinationList
-          destinations={destinations}
-          error={error}
-          isLoading={isPending}
-          isRefreshing={isFetching}
-          onRetry={() => void refetch()}
-        />
-```
-
-Because the placeholder card is gone, also remove this unused import:
-
-```tsx
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-```
-
-Save the file.
-
----
-
-## 39. Understanding `useQuery()`
+Before replacing the placeholder card, look at the commented query setup in `src/pages/TravelWishlist.tsx`.
 
 The most important part of the page is:
 
@@ -1580,7 +1556,7 @@ getDestinations()
 fetch()
    │
    ▼
-GET /destination
+GET /destination-<your-name>
    │
    ▼
 Xano
@@ -1591,7 +1567,7 @@ Destination[]
 
 ---
 
-## 40. Understanding Query Results
+## 39. Understanding Query Results
 
 TanStack Query gives us several useful values.
 
@@ -1622,6 +1598,45 @@ This can also happen during a refresh.
 ### `refetch`
 
 Allows us to manually request the data again.
+
+---
+
+## 40. Connect Everything in `TravelWishlist.tsx`
+
+Open:
+
+```text
+src/pages/TravelWishlist.tsx
+```
+
+Find the placeholder card below `<DestinationForm />`:
+
+```tsx
+        {/* TODO: Replace this placeholder with the DestinationList component. */}
+        <Card>
+          {/* Placeholder content */}
+        </Card>
+```
+
+Replace the entire placeholder card, including the TODO comment, with:
+
+```tsx
+        <DestinationList
+          destinations={destinations}
+          error={error}
+          isLoading={isPending}
+          isRefreshing={isFetching}
+          onRetry={() => void refetch()}
+        />
+```
+
+Because the placeholder card is gone, also remove this unused import:
+
+```tsx
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+```
+
+Save the file.
 
 ---
 
@@ -1678,9 +1693,9 @@ If they do not appear when you have data in your DB table, do not continue yet.
 Check:
 
 1. Does the GET endpoint work directly in Xano?
-2. Is `VITE_XANO_BASE_URL` correct?
+2. Are `VITE_XANO_BASE_URL` and `VITE_XANO_DESTINATION_PATH` correct?
 3. Did you restart Vite after creating `.env`?
-4. Is your endpoint named `/destination`?
+4. Does your endpoint match `VITE_XANO_DESTINATION_PATH`?
 5. Does the browser console show an error?
 6. Does the browser Network tab show the request?
 
@@ -1694,7 +1709,7 @@ If you do NOT have data in your table, you will see an empty destination list:
 Return to the API section in Xano and create:
 
 ```text
-POST /destination
+POST /destination-<your-name>
 ```
 
 Add two required text inputs:
@@ -1704,16 +1719,16 @@ city
 country
 ```
 
-Inside the function stack, add a record to the `destination` table. Map the inputs as follows:
+Inside the function stack, add a record to your `destination-<your-name>` table. Map the inputs as follows:
 
 ```text
 Input city
     ↓
-destination.city
+destination-<your-name>.city
 
 Input country
     ↓
-destination.country
+destination-<your-name>.country
 ```
 
 Return the created destination record and save the endpoint.
@@ -1783,7 +1798,7 @@ useMutation()
 addDestination()
         │
         ▼
-POST /destination
+POST /destination-<your-name>
         │
         ▼
 Xano
@@ -1799,7 +1814,7 @@ Mutation Success
         └── invalidateQueries()
                  │
                  ▼
-         GET /destination
+         GET /destination-<your-name>
                  │
                  ▼
            Updated List
@@ -1850,9 +1865,9 @@ API.TS
  ▼
 HTTP
  │
- ├── GET /destination
+ ├── GET /destination-<your-name>
  │
- └── POST /destination
+ └── POST /destination-<your-name>
  │
  ▼
 XANO
@@ -2169,7 +2184,7 @@ Refresh the application.
 Find the request to:
 
 ```text
-destination
+destination-<your-name>
 ```
 
 Click the request.
@@ -2530,13 +2545,13 @@ getDestinations()
 fetch()
       │
       ▼
-GET /destination
+GET /destination-<your-name>
       │
       ▼
 Xano API
       │
       ▼
-destination Table
+destination-<your-name> Table
       │
       ▼
 JSON Response
@@ -2581,7 +2596,7 @@ useMutation()
 addDestination()
  │
  ▼
-POST /destination
+POST /destination-<your-name>
  │
  ▼
 Xano
@@ -2600,7 +2615,7 @@ onSuccess()
  └── invalidateQueries()
             │
             ▼
-      GET /destination
+      GET /destination-<your-name>
             │
             ▼
        Updated Data
@@ -2623,9 +2638,9 @@ The same architecture can be reused for larger applications.
 Today:
 
 ```text
-GET /destination
+GET /destination-<your-name>
 
-POST /destination
+POST /destination-<your-name>
 ```
 
 Another application might use:
@@ -2709,8 +2724,8 @@ Before submitting your Pull Request, confirm:
 - [ ] `npm install` completed successfully
 - [ ] The project starts with `npm run dev`
 - [ ] The Travel Wishlist page loads
-- [ ] `.env` contains the correct Xano base URL
-- [ ] GET `/destination` works directly in Xano
+- [ ] `.env` contains the correct Xano base URL and personalized destination path
+- [ ] GET `/destination-<your-name>` works directly in Xano
 - [ ] Existing Xano destinations appear in React
 - [ ] Loading state works
 - [ ] Empty state works
@@ -2718,7 +2733,7 @@ Before submitting your Pull Request, confirm:
 - [ ] City is required
 - [ ] Country is required
 - [ ] Spaces-only values fail validation
-- [ ] POST `/destination` works directly in Xano
+- [ ] POST `/destination-<your-name>` works directly in Xano
 - [ ] A destination can be submitted from React
 - [ ] POST creates exactly one database record
 - [ ] The form clears after success
@@ -2767,9 +2782,9 @@ Look for the localhost URL in the terminal.
 Check:
 
 1. Does GET work directly in Xano?
-2. Is `VITE_XANO_BASE_URL` correct?
+2. Are `VITE_XANO_BASE_URL` and `VITE_XANO_DESTINATION_PATH` correct?
 3. Did you restart Vite?
-4. Is the endpoint `/destination`?
+4. Does the endpoint match `VITE_XANO_DESTINATION_PATH`?
 5. Check the browser Network tab.
 6. Check the browser Console.
 
