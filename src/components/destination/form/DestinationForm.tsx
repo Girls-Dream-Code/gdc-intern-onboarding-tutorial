@@ -1,20 +1,25 @@
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { useForm } from "react-hook-form";
-// import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-// import { addDestination } from "@/services/destinationService";
-// import { destinationQueryKey } from "@/lib/queryKeys";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { addDestination } from "@/services/destinationService";
+import { destinationQueryKey } from "@/lib/queryKeys";
 import styles from "./DestinationForm.module.css";
 
 // TODO: Add validation schema for the destination form
+const destinationSchema = z.object({
+  city: z.string().trim().min(1, "City is required."),
+  country: z.string().trim().min(1, "Country is required."),
+});
 
+type DestinationFormValues = z.infer<typeof destinationSchema>;
 export function DestinationForm() {
-  /*
+  
   const queryClient = useQueryClient();
 
   const {
@@ -39,7 +44,9 @@ export function DestinationForm() {
       });
     },
   });
-
+  function onSubmit(values: DestinationFormValues) {
+    addDestinationMutation.mutate(values);
+  }
 // TODO: Implement the onSubmit function for the destination form
 
   return (
@@ -51,6 +58,7 @@ export function DestinationForm() {
       <CardContent>
         <form
           className={styles.form}
+          onSubmit={handleSubmit(onSubmit)}
           // TODO: Implement the onSubmit function for the destination form
           noValidate
         >
@@ -65,8 +73,16 @@ export function DestinationForm() {
               aria-describedby={errors.city ? "city-error" : undefined}
               {...register("city")}
             />
+            {errors.city ? (
+              <p
+                id="city-error"
+                className="text-sm font-medium text-red-700"
+                role="alert"
+              >
+                {errors.city.message}
+              </p>
+            ) : null}
 
-            // TODO: Display validation error for the city field
           </div>
 
           <div className={styles.fieldGroup}>
@@ -80,8 +96,16 @@ export function DestinationForm() {
               aria-describedby={errors.country ? "country-error" : undefined}
               {...register("country")}
             />
+            {errors.country ? (
+              <p
+                id="country-error"
+                className="text-sm font-medium text-red-700"
+                role="alert"
+              >
+                {errors.country.message}
+              </p>
+            ) : null}
 
-            // TODO: Display validation error for the country field
           </div>
 
           {addDestinationMutation.error ? (
@@ -106,7 +130,7 @@ export function DestinationForm() {
       </CardContent>
     </Card>
   );
-  */
+
 
   return (
     <Card>
